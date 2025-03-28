@@ -60,14 +60,10 @@ class AStarStdLib(PathfinderBase):
         self.directions = array.array("b", [-1, 0, 1, 0, 0, -1, 0, 1])
 
     @lru_cache(maxsize=1024)
-    def euclidean_distance_squared(self, pos1: Position, pos2: Position) -> float:
-        """
-        Calculate squared Euclidean distance between points.
-        Avoiding sqrt for performance while maintaining admissibility.
-        """
+    def manhattan_distance(self, pos1: Position, pos2: Position) -> float:
         dx = pos1.x - pos2.x
         dy = pos1.y - pos2.y
-        return dx * dx + dy * dy
+        return abs(dx) + abs(dy)
 
     @lru_cache(maxsize=1024)
     def get_position(self, x: int, y: int) -> Position:
@@ -118,7 +114,7 @@ class AStarStdLib(PathfinderBase):
         # Initialize start node
         g_scores[start_pos] = 0
         start_node = Node(
-            f_score=self.euclidean_distance_squared(start_pos, goal_pos),
+            f_score=self.manhattan_distance(start_pos, goal_pos),
             g_score=0,
             position=start_pos,
         )
@@ -147,7 +143,7 @@ class AStarStdLib(PathfinderBase):
                     # Found better path, update scores
                     came_from[next_pos] = current_pos
                     g_scores[next_pos] = tentative_g
-                    f_score = tentative_g + self.euclidean_distance_squared(
+                    f_score = tentative_g + self.manhattan_distance(
                         next_pos, goal_pos
                     )
 
