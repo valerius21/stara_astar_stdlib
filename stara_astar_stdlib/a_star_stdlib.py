@@ -44,7 +44,7 @@ class AStarStdLib(PathfinderBase):
     - LRU caching for distance calculations
     - Immutable position objects for better caching
     - Binary heap for priority queue
-    - Euclidean distance heuristic with square root elimination
+    - Manhattan Distance Heuristic
     - Early termination optimizations
     - Memory-efficient data structures
     """
